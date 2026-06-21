@@ -1,0 +1,33 @@
+schema_version: "1.0"
+
+behaviors:
+  - id: AUTH-B001
+    summary: User can log in with a valid email and password and is navigated to the dashboard.
+    pr_of_origin: "#1"
+    file_paths:
+      - App/Features/Auth/Views/LoginView.swift
+      - App/Features/Auth/ViewModels/LoginViewModel.swift
+      - App/Core/Services/AuthService.swift
+    status: active
+    deprecated_in_pr: null
+    notes: ""
+
+  - id: AUTH-B002
+    summary: Login form shows an inline error and stays on the login screen when credentials are missing or invalid.
+    pr_of_origin: "#1"
+    file_paths:
+      - App/Features/Auth/Views/LoginView.swift
+      - App/Features/Auth/ViewModels/LoginViewModel.swift
+    status: active
+    deprecated_in_pr: null
+    notes: ""
+
+  - id: AUTH-B003
+    summary: User can log out from Settings, which clears session state and returns to the login screen.
+    pr_of_origin: "#1"
+    file_paths:
+      - App/Features/Settings/Views/SettingsView.swift
+      - App/Core/Services/AuthService.swift
+    status: active
+    deprecated_in_pr: null
+    notes: ""

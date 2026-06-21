@@ -1,0 +1,20 @@
+# Test Case Pool Schema
+# One file per feature area under harness/test-cases/
+# Each TC is linked to exactly one behavior ID.
+
+schema_version: "1.0"
+
+test_cases:
+  - id: ""                        # e.g. AUTH-TC001 (required, unique across pool)
+    behavior_id: ""               # links to a behavior ID in harness/behaviors/
+    priority: P1                  # P0 | P1 | P2 | P3
+    title: ""                     # short description
+    preconditions: []             # list of strings
+    steps: []                     # ordered list of action strings
+    expected_result: ""           # what success looks like
+    automation_status: manual     # manual | automated | automation-candidate
+    automation_tc_id: null        # @tc-id tag in the test code (null if manual)
+    last_result: null             # pass | fail | null
+    last_run_date: null           # ISO 8601 date or null
+    pr_of_origin: ""              # PR that created this TC
+    regression_for_bug: null      # bug issue number if this is a regression TC

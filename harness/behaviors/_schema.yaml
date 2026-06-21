@@ -1,0 +1,14 @@
+# Behavior Registry Schema
+# One file per feature area under harness/behaviors/
+# Keys are behavior IDs — format: <AREA>-B<NNN>
+
+schema_version: "1.0"
+
+behaviors:
+  - id: ""                        # e.g. AUTH-B001  (required, unique across registry)
+    summary: ""                   # plain-English one-liner of what the system does
+    pr_of_origin: ""              # GitHub PR number or URL that introduced this behavior
+    file_paths: []                # source files this behavior lives in
+    status: active                # active | deprecated | pending
+    deprecated_in_pr: null        # PR that deprecated this (null if active)
+    notes: ""                     # optional free-text
