@@ -1,0 +1,1468 @@
+schema_version: '1.0'
+test_cases:
+- id: PR1-B001-TC01
+  behavior_id: PR1-B001
+  priority: P0
+  title: Add form displays segmented control with Low, Medium, High options defaulting
+    to Medium
+  test_type: happy_path
+  preconditions:
+  - User is on the todo list screen
+  - The application is in a healthy state
+  steps:
+  - Tap or click the button to create a new todo
+  - Observe the add todo form
+  expected_result: The add form is displayed with a segmented control containing exactly
+    three segments labeled 'Low', 'Medium', and 'High'. The 'Medium' segment is selected
+    by default.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B001-TC02
+  behavior_id: PR1-B001
+  priority: P0
+  title: User selects Low priority from segmented control
+  test_type: happy_path
+  preconditions:
+  - User has opened the new todo add form
+  - Segmented control is visible with 'Medium' selected by default
+  steps:
+  - Tap or click the 'Low' segment on the priority segmented control
+  - Observe the segmented control state
+  expected_result: The 'Low' segment becomes selected and 'Medium' is deselected.
+    Only one segment is active at a time.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B001-TC03
+  behavior_id: PR1-B001
+  priority: P0
+  title: User selects High priority from segmented control
+  test_type: happy_path
+  preconditions:
+  - User has opened the new todo add form
+  - Segmented control is visible with 'Medium' selected by default
+  steps:
+  - Tap or click the 'High' segment on the priority segmented control
+  - Observe the segmented control state
+  expected_result: The 'High' segment becomes selected and 'Medium' is deselected.
+    Only one segment is active at a time.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B001-TC04
+  behavior_id: PR1-B001
+  priority: P0
+  title: Selected priority is saved when todo is submitted
+  test_type: happy_path
+  preconditions:
+  - User has opened the new todo add form
+  - Segmented control is visible
+  steps:
+  - Tap or click the 'High' segment on the priority segmented control
+  - Enter a valid title for the todo
+  - Submit the form
+  - Observe the newly created todo in the list
+  expected_result: The todo is created and displayed with 'High' priority, confirming
+    the selected priority value was correctly persisted.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B001-TC05
+  behavior_id: PR1-B001
+  priority: P1
+  title: Todo created with default Medium priority without changing the segmented
+    control
+  test_type: boundary
+  preconditions:
+  - User has opened the new todo add form
+  - Segmented control defaults to 'Medium'
+  steps:
+  - Do not interact with the priority segmented control
+  - Enter a valid title for the todo
+  - Submit the form
+  - Observe the newly created todo in the list
+  expected_result: The todo is created and saved with 'Medium' priority, confirming
+    the default value is correctly used when no explicit selection is made.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B001-TC06
+  behavior_id: PR1-B001
+  priority: P1
+  title: Segmented control resets to Medium default when form is dismissed and reopened
+  test_type: boundary
+  preconditions:
+  - User has opened the new todo add form
+  steps:
+  - Select 'High' priority on the segmented control
+  - Dismiss or cancel the form without submitting
+  - Open the new todo add form again
+  - Observe the segmented control state
+  expected_result: The segmented control resets to 'Medium' as the default selection
+    when the form is freshly opened.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B001-TC07
+  behavior_id: PR1-B001
+  priority: P1
+  title: Segmented control is non-interactive or shows error when form fails to load
+  test_type: error_state
+  preconditions:
+  - User attempts to open the new todo add form
+  - A simulated failure occurs during form initialization or rendering (e.g., component
+    load error)
+  steps:
+  - Trigger a condition that causes the add form to fail to load (e.g., simulate a
+    JavaScript/render error)
+  - Observe the behavior of the form and the priority segmented control
+  expected_result: The application handles the failure gracefully, either displaying
+    an error message, preventing form display, or showing a fallback UI. The user
+    is not left in an inconsistent state with a partially rendered segmented control.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B001-TC08
+  behavior_id: PR1-B001
+  priority: P1
+  title: Priority selection is preserved if form submission fails and user retries
+  test_type: error_state
+  preconditions:
+  - User has opened the new todo add form
+  - Network or API is configured to return an error on submit
+  steps:
+  - Select 'Low' priority on the segmented control
+  - Enter a valid title for the todo
+  - Submit the form
+  - Observe the error state and the segmented control value after the failed submission
+  expected_result: An appropriate error message is displayed. The segmented control
+    retains the user's previously selected 'Low' priority so the user does not need
+    to reselect it before retrying.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B001-TC09
+  behavior_id: PR1-B001
+  priority: P2
+  title: Segmented control does not allow deselecting all options
+  test_type: negative
+  preconditions:
+  - User has opened the new todo add form
+  - Segmented control shows 'Medium' as selected by default
+  steps:
+  - Tap or click the currently selected 'Medium' segment in an attempt to deselect
+    it without choosing another segment
+  - Observe the segmented control state
+  expected_result: The segmented control does not allow an empty or no-selection state.
+    'Medium' remains selected, ensuring exactly one priority is always chosen.
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B001-TC10
+  behavior_id: PR1-B001
+  priority: P2
+  title: Segmented control is accessible and all segments are reachable via keyboard
+    or assistive technology
+  test_type: happy_path
+  preconditions:
+  - User has opened the new todo add form
+  - Accessibility tools or keyboard navigation are enabled
+  steps:
+  - Navigate to the priority segmented control using keyboard Tab key or assistive
+    technology
+  - Use arrow keys or equivalent to move between 'Low', 'Medium', and 'High' segments
+  - Select 'High' using keyboard Enter or Space
+  expected_result: All three segments are reachable and selectable via keyboard navigation.
+    The selected segment is announced correctly by screen readers, and 'High' becomes
+    the active selection.
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC01
+  behavior_id: PR1-B002
+  priority: P0
+  title: Edit form pre-selects the current priority of an existing todo
+  test_type: happy_path
+  preconditions:
+  - At least one todo exists with a known priority (e.g., 'Medium')
+  - User is on the todo list view
+  - The edit form includes a segmented control for priority selection
+  steps:
+  - Locate the existing todo with a known priority (e.g., 'Medium')
+  - Tap or click the edit button/action for that todo
+  - Observe the segmented control in the edit form
+  expected_result: The segmented control displays the todo's current priority (e.g.,
+    'Medium') as the pre-selected option when the edit form opens
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC02
+  behavior_id: PR1-B002
+  priority: P0
+  title: Changing priority in edit form and saving persists the new priority
+  test_type: happy_path
+  preconditions:
+  - At least one todo exists with priority set to 'Low'
+  - User is on the todo list view
+  - The edit form includes a segmented control for priority selection
+  steps:
+  - Tap or click the edit button for the todo with priority 'Low'
+  - Verify the segmented control pre-selects 'Low'
+  - Select 'High' in the segmented control
+  - Tap or click the Save button
+  - Return to the todo list or detail view
+  expected_result: The todo is updated and now displays 'High' as its priority; reopening
+    the edit form also shows 'High' pre-selected
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC03
+  behavior_id: PR1-B002
+  priority: P1
+  title: Pre-selection is correct for each possible priority value
+  test_type: happy_path
+  preconditions:
+  - Todos exist with each supported priority value (e.g., Low, Medium, High, Critical)
+  - User is on the todo list view
+  steps:
+  - Open the edit form for the todo with priority 'Low' and verify 'Low' is pre-selected
+  - Close without saving
+  - Open the edit form for the todo with priority 'Medium' and verify 'Medium' is
+    pre-selected
+  - Close without saving
+  - Open the edit form for the todo with priority 'High' and verify 'High' is pre-selected
+  - Close without saving
+  - Open the edit form for the todo with priority 'Critical' and verify 'Critical'
+    is pre-selected
+  - Close without saving
+  expected_result: For each todo, the edit form's segmented control pre-selects the
+    exact priority value stored on that todo
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC04
+  behavior_id: PR1-B002
+  priority: P1
+  title: Saving edit without changing priority preserves original priority
+  test_type: happy_path
+  preconditions:
+  - A todo exists with priority 'High'
+  - User is on the todo list view
+  steps:
+  - Open the edit form for the todo with priority 'High'
+  - Do not change the priority segmented control
+  - Modify another field (e.g., the title)
+  - Tap or click the Save button
+  expected_result: The todo is saved with priority still set to 'High'; no unintended
+    priority change occurs
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC05
+  behavior_id: PR1-B002
+  priority: P1
+  title: Cancelling edit after changing priority does not persist the change
+  test_type: negative
+  preconditions:
+  - A todo exists with priority 'Low'
+  - User is on the todo list view
+  steps:
+  - Open the edit form for the todo with priority 'Low'
+  - Select 'High' in the segmented control
+  - Tap or click the Cancel button without saving
+  expected_result: The todo retains its original priority of 'Low'; reopening the
+    edit form shows 'Low' still pre-selected
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC06
+  behavior_id: PR1-B002
+  priority: P2
+  title: Edit form pre-selects correct priority after multiple consecutive edits
+  test_type: negative
+  preconditions:
+  - A todo exists with priority 'Low'
+  - User is on the todo list view
+  steps:
+  - Open the edit form for the todo; verify 'Low' is pre-selected
+  - Change priority to 'Medium' and save
+  - Immediately open the edit form for the same todo
+  - Verify the segmented control now shows 'Medium' pre-selected
+  - Change priority to 'High' and save
+  - Open the edit form again and verify 'High' is pre-selected
+  expected_result: Each time the edit form is opened, the segmented control reflects
+    the most recently saved priority value without stale state from a previous session
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC07
+  behavior_id: PR1-B002
+  priority: P2
+  title: Edit form behavior when todo has no priority set (null/default state)
+  test_type: boundary
+  preconditions:
+  - A todo exists that was created without a priority value or with a null/undefined
+    priority
+  - User is on the todo list view
+  steps:
+  - Open the edit form for the todo with no priority set
+  - Observe the segmented control state
+  expected_result: The segmented control either shows no option selected or defaults
+    to a defined default priority (e.g., 'Medium' or 'None') as specified by the application's
+    design; no crash or rendering error occurs
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC08
+  behavior_id: PR1-B002
+  priority: P2
+  title: Changing priority to every available segment option and saving
+  test_type: boundary
+  preconditions:
+  - A todo exists with any initial priority
+  - User is on the todo list view
+  - The segmented control has a finite set of options (e.g., Low, Medium, High, Critical)
+  steps:
+  - 'For each priority option in the segmented control:'
+  - Open the edit form for the todo
+  - Select the target priority option
+  - Save the form
+  - Reopen the edit form and verify the priority is pre-selected correctly
+  expected_result: Every priority option can be selected and persisted successfully;
+    the segmented control always reflects the saved value upon reopening
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC09
+  behavior_id: PR1-B002
+  priority: P1
+  title: API failure when saving a changed priority displays an error and does not
+    update the todo
+  test_type: error_state
+  preconditions:
+  - A todo exists with priority 'Low'
+  - The backend API or persistence layer is configured to return an error on save
+    (e.g., network offline, server 500)
+  steps:
+  - Open the edit form for the todo with priority 'Low'
+  - Select 'High' in the segmented control
+  - Tap or click the Save button
+  - Observe the UI response
+  expected_result: An error message is shown to the user indicating the save failed;
+    the todo's priority remains 'Low'; reopening the edit form shows 'Low' still pre-selected
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC10
+  behavior_id: PR1-B002
+  priority: P2
+  title: Edit form opens correctly when the todo data takes time to load (slow API
+    response)
+  test_type: error_state
+  preconditions:
+  - A todo exists with priority 'High'
+  - The API is simulated to have a delayed response (e.g., 3–5 seconds) when fetching
+    todo details
+  steps:
+  - Tap or click the edit button for the todo
+  - Observe the edit form during the loading period
+  - Wait for the data to finish loading
+  expected_result: The edit form shows a loading indicator or placeholder while data
+    loads; once loaded, the segmented control correctly pre-selects 'High'; no incorrect
+    or empty priority is shown prematurely
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B002-TC11
+  behavior_id: PR1-B002
+  priority: P3
+  title: Stale edit form does not overwrite priority if todo was updated elsewhere
+    between open and save
+  test_type: error_state
+  preconditions:
+  - A todo exists with priority 'Low'
+  - User has the edit form open for that todo
+  - The same todo's priority is changed to 'High' via another session or device before
+    the first user saves
+  steps:
+  - Open the edit form for the todo (priority 'Low' is pre-selected)
+  - Without changing priority, tap Save (or change to 'Medium' and tap Save)
+  - Observe the resulting priority on the todo
+  expected_result: Either the application detects the conflict and shows a conflict/error
+    message, or it saves the last-write value and displays the resulting priority
+    accurately; no silent data corruption occurs
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC01
+  behavior_id: PR1-B003
+  priority: P0
+  title: Low priority todo displays gray pill badge with 'Low' label
+  test_type: happy_path
+  preconditions:
+  - The todo list is rendered and visible
+  - At least one todo item exists with priority set to 'Low'
+  steps:
+  - Navigate to the todo list view
+  - Locate a todo row with priority 'Low'
+  - Inspect the priority badge element within that row
+  expected_result: The badge displays the text 'Low' and is styled with a gray background
+    color (e.g., bg-gray or equivalent gray CSS class/color value)
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC02
+  behavior_id: PR1-B003
+  priority: P0
+  title: Medium priority todo displays orange pill badge with 'Medium' label
+  test_type: happy_path
+  preconditions:
+  - The todo list is rendered and visible
+  - At least one todo item exists with priority set to 'Medium'
+  steps:
+  - Navigate to the todo list view
+  - Locate a todo row with priority 'Medium'
+  - Inspect the priority badge element within that row
+  expected_result: The badge displays the text 'Medium' and is styled with an orange
+    background color (e.g., bg-orange or equivalent orange CSS class/color value)
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC03
+  behavior_id: PR1-B003
+  priority: P0
+  title: High priority todo displays red pill badge with 'High' label
+  test_type: happy_path
+  preconditions:
+  - The todo list is rendered and visible
+  - At least one todo item exists with priority set to 'High'
+  steps:
+  - Navigate to the todo list view
+  - Locate a todo row with priority 'High'
+  - Inspect the priority badge element within that row
+  expected_result: The badge displays the text 'High' and is styled with a red background
+    color (e.g., bg-red or equivalent red CSS class/color value)
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC04
+  behavior_id: PR1-B003
+  priority: P1
+  title: All three priority badges render correctly in a mixed todo list
+  test_type: happy_path
+  preconditions:
+  - 'The todo list contains at least one item of each priority level: Low, Medium,
+    and High'
+  steps:
+  - Navigate to the todo list view
+  - Visually and programmatically inspect each todo row
+  - Verify the badge color and label for each priority level
+  expected_result: 'Each row shows the correct color-coded pill badge: gray for Low,
+    orange for Medium, red for High, and all badges are pill-shaped (rounded)'
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC05
+  behavior_id: PR1-B003
+  priority: P1
+  title: Todo badge does not display incorrect color for a given priority
+  test_type: negative
+  preconditions:
+  - The todo list contains items of all priority levels
+  steps:
+  - Navigate to the todo list view
+  - Locate a todo row with priority 'High'
+  - Check that the badge is NOT gray or orange
+  - Locate a todo row with priority 'Medium'
+  - Check that the badge is NOT gray or red
+  - Locate a todo row with priority 'Low'
+  - Check that the badge is NOT orange or red
+  expected_result: No priority badge displays a color that does not match its assigned
+    priority level; cross-color rendering does not occur
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC06
+  behavior_id: PR1-B003
+  priority: P2
+  title: Todo with no priority set or undefined priority does not crash and handles
+    badge gracefully
+  test_type: boundary
+  preconditions:
+  - A todo item exists in the list with a null, undefined, or empty string priority
+    value
+  steps:
+  - Navigate to the todo list view
+  - Locate the todo row with a missing or empty priority value
+  - Inspect the badge element in that row
+  expected_result: The application does not crash; either no badge is shown, a default
+    badge (e.g., gray 'Low' or a neutral placeholder) is rendered, or a graceful fallback
+    label such as 'Unknown' appears without breaking the layout
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC07
+  behavior_id: PR1-B003
+  priority: P1
+  title: Priority badge renders correctly after priority is updated from one level
+    to another
+  test_type: happy_path
+  preconditions:
+  - A todo item exists with priority 'Low'
+  - The application supports editing or updating a todo's priority
+  steps:
+  - Navigate to the todo list view
+  - Confirm the existing todo shows a gray 'Low' badge
+  - Edit the todo and change the priority to 'High'
+  - Save the changes and return to the list view
+  - Inspect the badge on the updated todo row
+  expected_result: The badge updates to display 'High' with a red background color,
+    reflecting the new priority correctly
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC08
+  behavior_id: PR1-B003
+  priority: P2
+  title: Priority badge is pill-shaped (rounded) for all priority levels
+  test_type: happy_path
+  preconditions:
+  - The todo list contains at least one item of each priority level
+  steps:
+  - Navigate to the todo list view
+  - Inspect the CSS or rendered style of the badge element for a Low priority item
+  - Repeat for Medium priority item
+  - Repeat for High priority item
+  expected_result: All badges have a pill/rounded shape (e.g., border-radius is set
+    to a value that produces a rounded pill appearance) regardless of priority level
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC09
+  behavior_id: PR1-B003
+  priority: P2
+  title: Priority badge still renders when the API returns todos slowly or with delay
+  test_type: error_state
+  preconditions:
+  - The application fetches todos from an API
+  - Network throttling or a delayed API response is simulated
+  steps:
+  - Simulate a slow API response (e.g., 3–5 second delay) using network throttling
+    or a mock
+  - Navigate to the todo list view
+  - Wait for the todos to load
+  - Inspect the priority badges on each row after load completes
+  expected_result: Once the data loads, all priority badges render with the correct
+    color and label; no badges are missing, broken, or showing incorrect fallback
+    states due to delayed data
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC10
+  behavior_id: PR1-B003
+  priority: P2
+  title: Priority badge does not render or shows error state when the API fails to
+    return todo data
+  test_type: error_state
+  preconditions:
+  - The application fetches todos from an API
+  - The API is mocked to return a 500 error or network failure
+  steps:
+  - Simulate an API failure (e.g., 500 Internal Server Error or network timeout)
+  - Navigate to the todo list view
+  - Observe the todo list area
+  expected_result: The application handles the failure gracefully; either an error
+    message is displayed or the list is empty — the app does not crash, and no broken
+    or incorrectly colored badges are partially rendered
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B003-TC11
+  behavior_id: PR1-B003
+  priority: P3
+  title: Priority badge with an unrecognized priority string value does not apply
+    incorrect color
+  test_type: negative
+  preconditions:
+  - A todo item exists with a priority value that is not 'Low', 'Medium', or 'High'
+    (e.g., 'Critical', 'Urgent', or a misspelled value)
+  steps:
+  - Navigate to the todo list view
+  - Locate the todo row with the unrecognized priority value
+  - Inspect the badge element
+  expected_result: The badge does not display an incorrect color mapping; it either
+    shows a neutral/default style or no badge at all, and the application does not
+    throw a rendering error
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC01
+  behavior_id: PR1-B004
+  priority: P0
+  title: High Priority row displays correct count of incomplete high priority todos
+  test_type: happy_path
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - There are multiple todos with High priority marked as incomplete
+  - There are also completed High priority todos in the system
+  - There are incomplete todos with other priority levels (Low, Medium)
+  steps:
+  - Navigate to the Dashboard
+  - Locate the Dashboard Stats section
+  - Observe the 'High Priority' row
+  expected_result: The 'High Priority' row displays a count that matches exactly the
+    number of incomplete todos with High priority, excluding completed High priority
+    todos and incomplete todos of other priority levels
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC02
+  behavior_id: PR1-B004
+  priority: P0
+  title: High Priority count updates immediately when a high priority todo is marked
+    complete
+  test_type: happy_path
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - There are at least 2 incomplete High priority todos
+  - Dashboard Stats section is visible with a non-zero High Priority count
+  steps:
+  - Note the current 'High Priority' count on the Dashboard Stats
+  - Navigate to the todo list
+  - Mark one incomplete High priority todo as complete
+  - Return to the Dashboard or observe the Dashboard Stats section
+  expected_result: The 'High Priority' count decreases by 1 to reflect the updated
+    number of incomplete High priority todos
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC03
+  behavior_id: PR1-B004
+  priority: P1
+  title: High Priority count updates immediately when a new high priority incomplete
+    todo is added
+  test_type: happy_path
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - Dashboard Stats section is visible with a known High Priority count
+  steps:
+  - Note the current 'High Priority' count on the Dashboard Stats
+  - Create a new todo with High priority and leave it incomplete
+  - Return to or refresh the Dashboard Stats section
+  expected_result: The 'High Priority' count increases by 1 to reflect the newly added
+    incomplete High priority todo
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC04
+  behavior_id: PR1-B004
+  priority: P1
+  title: High Priority row shows zero when there are no incomplete high priority todos
+  test_type: boundary
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - There are no incomplete todos with High priority (either none exist or all High
+    priority todos are completed)
+  steps:
+  - Navigate to the Dashboard
+  - Locate the Dashboard Stats section
+  - Observe the 'High Priority' row
+  expected_result: The 'High Priority' row is visible and displays a count of 0
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC05
+  behavior_id: PR1-B004
+  priority: P2
+  title: High Priority row shows correct count when all todos are High priority and
+    incomplete
+  test_type: boundary
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - All existing todos are set to High priority and are incomplete
+  - There are no todos of other priority levels
+  steps:
+  - Navigate to the Dashboard
+  - Locate the Dashboard Stats section
+  - Observe the 'High Priority' row
+  expected_result: The 'High Priority' row displays a count equal to the total number
+    of todos in the system
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC06
+  behavior_id: PR1-B004
+  priority: P1
+  title: High Priority count does not include completed high priority todos
+  test_type: negative
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - There are completed todos with High priority
+  - There are zero incomplete todos with High priority
+  steps:
+  - Navigate to the Dashboard
+  - Locate the Dashboard Stats section
+  - Observe the 'High Priority' row
+  expected_result: The 'High Priority' row displays a count of 0, not counting completed
+    High priority todos
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC07
+  behavior_id: PR1-B004
+  priority: P1
+  title: High Priority count does not include incomplete todos with non-high priority
+    levels
+  test_type: negative
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - There are multiple incomplete todos with Low and Medium priority
+  - There are zero incomplete todos with High priority
+  steps:
+  - Navigate to the Dashboard
+  - Locate the Dashboard Stats section
+  - Observe the 'High Priority' row
+  expected_result: The 'High Priority' row displays a count of 0, not counting incomplete
+    Low or Medium priority todos
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC08
+  behavior_id: PR1-B004
+  priority: P1
+  title: Dashboard Stats High Priority row displays gracefully when stats API fails
+  test_type: error_state
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - The backend API endpoint responsible for returning dashboard stats is unavailable
+    or returns an error
+  steps:
+  - Simulate or trigger an API failure for the dashboard stats endpoint (e.g., via
+    network throttling or mock)
+  - Navigate to the Dashboard
+  - Observe the Dashboard Stats section and the 'High Priority' row
+  expected_result: The Dashboard Stats section handles the error gracefully by showing
+    an error message, a loading failure indicator, or a fallback state (e.g., '--'
+    or 'N/A') instead of crashing or displaying an incorrect count
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC09
+  behavior_id: PR1-B004
+  priority: P1
+  title: High Priority count remains accurate after deleting a high priority incomplete
+    todo
+  test_type: happy_path
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - There are at least 2 incomplete High priority todos
+  - Dashboard Stats section shows a known High Priority count
+  steps:
+  - Note the current 'High Priority' count on the Dashboard Stats
+  - Delete one incomplete High priority todo
+  - Return to or refresh the Dashboard Stats section
+  expected_result: The 'High Priority' count decreases by 1 to reflect the deletion
+    of the incomplete High priority todo
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC10
+  behavior_id: PR1-B004
+  priority: P2
+  title: High Priority row displays correctly with a very large number of incomplete
+    high priority todos
+  test_type: boundary
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - A large number (e.g., 1000+) of incomplete High priority todos exist in the system
+  steps:
+  - Navigate to the Dashboard
+  - Locate the Dashboard Stats section
+  - Observe the 'High Priority' row
+  expected_result: The 'High Priority' row displays the correct large count without
+    UI truncation, overflow, or rendering issues
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC11
+  behavior_id: PR1-B004
+  priority: P1
+  title: High Priority count updates when an incomplete todo's priority is changed
+    to High
+  test_type: happy_path
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - There is at least one incomplete todo with a non-High priority (e.g., Medium)
+  - Dashboard Stats section shows a known High Priority count
+  steps:
+  - Note the current 'High Priority' count on the Dashboard Stats
+  - Edit an incomplete Medium priority todo and change its priority to High
+  - Return to or refresh the Dashboard Stats section
+  expected_result: The 'High Priority' count increases by 1 to reflect that the todo's
+    priority was changed to High
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B004-TC12
+  behavior_id: PR1-B004
+  priority: P1
+  title: High Priority count updates when an incomplete high priority todo's priority
+    is changed away from High
+  test_type: happy_path
+  preconditions:
+  - User is authenticated and on the Dashboard
+  - There are at least 2 incomplete High priority todos
+  - Dashboard Stats section shows a known High Priority count
+  steps:
+  - Note the current 'High Priority' count on the Dashboard Stats
+  - Edit one incomplete High priority todo and change its priority to Medium
+  - Return to or refresh the Dashboard Stats section
+  expected_result: The 'High Priority' count decreases by 1 to reflect that the todo's
+    priority was changed away from High
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC01
+  behavior_id: PR1-B005
+  priority: P0
+  title: Priority persists after app restart when set to High
+  test_type: happy_path
+  preconditions:
+  - App is installed and running
+  - No existing todos in UserDefaults
+  steps:
+  - Create a new todo item with the title 'Test Todo'
+  - Set the priority level to 'High'
+  - Save the todo
+  - Terminate the app completely
+  - Relaunch the app
+  - Navigate to the todo list
+  - Locate the 'Test Todo' item
+  expected_result: The todo item 'Test Todo' is displayed with priority level 'High',
+    confirming priority survived the app restart via UserDefaults Codable persistence.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC02
+  behavior_id: PR1-B005
+  priority: P0
+  title: Priority persists after app restart when set to Medium
+  test_type: happy_path
+  preconditions:
+  - App is installed and running
+  - No existing todos in UserDefaults
+  steps:
+  - Create a new todo item with the title 'Medium Priority Task'
+  - Set the priority level to 'Medium'
+  - Save the todo
+  - Terminate the app completely
+  - Relaunch the app
+  - Navigate to the todo list
+  - Locate the 'Medium Priority Task' item
+  expected_result: The todo item 'Medium Priority Task' is displayed with priority
+    level 'Medium', confirming the value was correctly encoded and decoded via Codable.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC03
+  behavior_id: PR1-B005
+  priority: P0
+  title: Priority persists after app restart when set to Low
+  test_type: happy_path
+  preconditions:
+  - App is installed and running
+  - No existing todos in UserDefaults
+  steps:
+  - Create a new todo item with the title 'Low Priority Task'
+  - Set the priority level to 'Low'
+  - Save the todo
+  - Terminate the app completely
+  - Relaunch the app
+  - Navigate to the todo list
+  - Locate the 'Low Priority Task' item
+  expected_result: The todo item 'Low Priority Task' is displayed with priority level
+    'Low' after relaunch.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC04
+  behavior_id: PR1-B005
+  priority: P0
+  title: Updated priority persists after app restart
+  test_type: happy_path
+  preconditions:
+  - App is installed and running
+  - At least one todo exists with priority 'Low'
+  steps:
+  - Open the existing todo with priority 'Low'
+  - Edit the priority and change it to 'High'
+  - Save the changes
+  - Terminate the app completely
+  - Relaunch the app
+  - Navigate to the todo list
+  - Open the edited todo
+  expected_result: The todo displays the updated priority 'High', not the old value
+    'Low', confirming that priority updates are correctly re-persisted.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC05
+  behavior_id: PR1-B005
+  priority: P1
+  title: Multiple todos each retain their individual priority after restart
+  test_type: happy_path
+  preconditions:
+  - App is installed and running
+  - No existing todos in UserDefaults
+  steps:
+  - Create todo 'Task A' with priority 'High'
+  - Create todo 'Task B' with priority 'Medium'
+  - Create todo 'Task C' with priority 'Low'
+  - Terminate the app completely
+  - Relaunch the app
+  - Navigate to the todo list
+  expected_result: '''Task A'' shows priority ''High'', ''Task B'' shows priority
+    ''Medium'', and ''Task C'' shows priority ''Low''. Each todo independently retains
+    its own persisted priority.'
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC06
+  behavior_id: PR1-B005
+  priority: P1
+  title: New todo created without explicit priority selection uses correct default
+    priority after restart
+  test_type: boundary
+  preconditions:
+  - App is installed and running
+  - No existing todos in UserDefaults
+  steps:
+  - Create a new todo item with the title 'Default Priority Task'
+  - Do not explicitly set a priority level; leave it at whatever default the app assigns
+  - Save the todo
+  - Terminate the app completely
+  - Relaunch the app
+  - Navigate to the todo list
+  - Locate 'Default Priority Task'
+  expected_result: The todo displays the application-defined default priority (e.g.,
+    'None' or 'Medium') consistently after restart, confirming the default value is
+    encoded and decoded correctly.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC07
+  behavior_id: PR1-B005
+  priority: P2
+  title: Large number of todos all retain correct priorities after restart
+  test_type: boundary
+  preconditions:
+  - App is installed and running
+  - No existing todos in UserDefaults
+  steps:
+  - Programmatically or manually create 100 todo items, alternating priorities among
+    High, Medium, and Low
+  - Save all todos
+  - Terminate the app completely
+  - Relaunch the app
+  - Navigate to the todo list
+  - Spot-check at least 10 todos across the list for correct priority
+  expected_result: All sampled todos display the priority that was assigned before
+    the restart, with no corruption or mix-up of priority values across the large
+    dataset.
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC08
+  behavior_id: PR1-B005
+  priority: P1
+  title: Corrupted UserDefaults priority data is handled gracefully on app launch
+  test_type: error_state
+  preconditions:
+  - App is installed
+  - At least one todo exists with a valid priority saved in UserDefaults
+  steps:
+  - Using a device file manager or debug tool, manually corrupt the priority field
+    in the UserDefaults plist for an existing todo (e.g., set it to an unexpected
+    string or invalid type)
+  - Launch the app
+  - Navigate to the todo list
+  - Observe the affected todo item
+  expected_result: The app does not crash. The affected todo is either shown with
+    a safe fallback/default priority or displays an appropriate error state. Other
+    todos with valid data are unaffected.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC09
+  behavior_id: PR1-B005
+  priority: P1
+  title: Missing priority key in persisted UserDefaults data handled gracefully
+  test_type: error_state
+  preconditions:
+  - App is installed
+  - At least one todo exists in UserDefaults
+  steps:
+  - Using a device file manager or debug tool, remove the priority key entirely from
+    a todo's stored JSON in UserDefaults
+  - Launch the app
+  - Navigate to the todo list
+  - Locate the todo whose priority key was removed
+  expected_result: The app does not crash. The Codable decoder gracefully handles
+    the missing key and assigns a sensible default priority value, or displays a neutral
+    priority indicator.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC10
+  behavior_id: PR1-B005
+  priority: P1
+  title: Priority does not persist after todo is deleted
+  test_type: negative
+  preconditions:
+  - App is installed and running
+  - At least one todo with priority 'High' exists
+  steps:
+  - Delete the todo item with priority 'High'
+  - Terminate the app completely
+  - Relaunch the app
+  - Navigate to the todo list
+  expected_result: The deleted todo is not present in the list. Its priority data
+    is not persisted in UserDefaults and does not reappear after restart.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC11
+  behavior_id: PR1-B005
+  priority: P2
+  title: Priority field is not persisted when todo save fails
+  test_type: error_state
+  preconditions:
+  - App is installed and running
+  - A mechanism exists to simulate a UserDefaults write failure (e.g., disk full simulation
+    or test hook)
+  steps:
+  - Simulate a condition where UserDefaults cannot write data (e.g., disk full or
+    write permission revoked)
+  - Create a new todo with priority 'High'
+  - Attempt to save the todo
+  - Terminate the app
+  - Remove the simulated failure condition
+  - Relaunch the app
+  - Navigate to the todo list
+  expected_result: The todo is either absent from the list (save failed cleanly) or
+    the app surfaced an error at save time. The app does not crash and does not display
+    a partially persisted todo with an incorrect or missing priority.
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B005-TC12
+  behavior_id: PR1-B005
+  priority: P2
+  title: Priority value is preserved across multiple consecutive app restarts
+  test_type: happy_path
+  preconditions:
+  - App is installed and running
+  - No existing todos in UserDefaults
+  steps:
+  - Create a todo 'Recurring Test' with priority 'High'
+  - Save the todo
+  - 'Terminate and relaunch the app (restart #1); verify priority is ''High'''
+  - 'Terminate and relaunch the app (restart #2); verify priority is ''High'''
+  - 'Terminate and relaunch the app (restart #3); verify priority is ''High'''
+  expected_result: After each of the three restarts, the todo 'Recurring Test' continues
+    to display priority 'High', confirming stable round-trip encoding/decoding with
+    no degradation.
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC01
+  behavior_id: PR1-B006
+  priority: P0
+  title: Todo row with priority badge truncates long notes text to a single line
+  test_type: happy_path
+  preconditions:
+  - User is authenticated and has access to the todo list
+  - A todo item exists with a priority badge assigned (e.g., High, Medium, or Low)
+  - The todo item has a notes field containing text long enough to exceed a single
+    line at standard viewport width
+  steps:
+  - Navigate to the todo list view
+  - Locate a todo row that has both a priority badge and a long notes text
+  - Observe the notes text displayed in that row
+  expected_result: The notes text is clamped to a single line and truncated (e.g.,
+    with an ellipsis) rather than wrapping to multiple lines, while the priority badge
+    remains fully visible alongside the notes text
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC02
+  behavior_id: PR1-B006
+  priority: P1
+  title: Todo row with priority badge and short notes text displays without truncation
+  test_type: happy_path
+  preconditions:
+  - User is authenticated and has access to the todo list
+  - A todo item exists with a priority badge assigned
+  - The todo item has a short notes text that fits within a single line alongside
+    the priority badge
+  steps:
+  - Navigate to the todo list view
+  - Locate a todo row that has both a priority badge and short notes text
+  - Observe the notes text displayed in that row
+  expected_result: The notes text is displayed in full on a single line without truncation,
+    and the priority badge is displayed correctly alongside it
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC03
+  behavior_id: PR1-B006
+  priority: P1
+  title: Todo row without priority badge still clamps notes text to a single line
+  test_type: negative
+  preconditions:
+  - User is authenticated and has access to the todo list
+  - A todo item exists with NO priority badge assigned
+  - The todo item has a notes field containing text long enough to exceed a single
+    line
+  steps:
+  - Navigate to the todo list view
+  - Locate a todo row that has no priority badge but has long notes text
+  - Observe the notes text displayed in that row
+  expected_result: The notes text is still clamped to a single line and truncated,
+    consistent with the single-line truncation behavior regardless of whether a priority
+    badge is present
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC04
+  behavior_id: PR1-B006
+  priority: P1
+  title: Todo row with empty notes field and priority badge displays correctly
+  test_type: boundary
+  preconditions:
+  - User is authenticated and has access to the todo list
+  - A todo item exists with a priority badge assigned
+  - The todo item has an empty or null notes field
+  steps:
+  - Navigate to the todo list view
+  - Locate a todo row that has a priority badge but no notes text
+  - Observe the notes area in that row
+  expected_result: The notes area displays as empty or with a placeholder without
+    causing layout issues, and the priority badge is rendered correctly
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC05
+  behavior_id: PR1-B006
+  priority: P2
+  title: Todo row notes text at exactly the maximum single-line character width
+  test_type: boundary
+  preconditions:
+  - User is authenticated and has access to the todo list
+  - A todo item exists with a priority badge assigned
+  - The todo item notes text is crafted to be exactly at the boundary of fitting in
+    one line (no overflow)
+  steps:
+  - Navigate to the todo list view
+  - Locate the todo row with notes text at maximum single-line fit alongside the priority
+    badge
+  - Observe whether the text is truncated or displayed in full
+  expected_result: The notes text is displayed in full on one line without truncation
+    since it fits within the available space alongside the priority badge
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC06
+  behavior_id: PR1-B006
+  priority: P2
+  title: Todo row notes text exceeding maximum single-line width by one character
+  test_type: boundary
+  preconditions:
+  - User is authenticated and has access to the todo list
+  - A todo item exists with a priority badge assigned
+  - The todo item notes text is crafted to exceed the single-line boundary by one
+    character
+  steps:
+  - Navigate to the todo list view
+  - Locate the todo row with notes text just exceeding the single-line width alongside
+    the priority badge
+  - Observe whether the text is truncated
+  expected_result: The notes text is clamped and truncated with an ellipsis at the
+    end of the single line, and the row does not expand to a second line
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC07
+  behavior_id: PR1-B006
+  priority: P2
+  title: Todo row notes text is extremely long (maximum field length)
+  test_type: boundary
+  preconditions:
+  - User is authenticated and has access to the todo list
+  - A todo item exists with a priority badge assigned
+  - The todo item notes field is populated with the maximum allowable length of text
+  steps:
+  - Navigate to the todo list view
+  - Locate the todo row with the maximum-length notes text and a priority badge
+  - Observe the notes text rendering
+  expected_result: The notes text is clamped to a single line with truncation and
+    does not overflow or break the layout of the row
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC08
+  behavior_id: PR1-B006
+  priority: P2
+  title: Todo list fails to load due to API error and notes truncation state is handled
+    gracefully
+  test_type: error_state
+  preconditions:
+  - User is authenticated
+  - The backend API for fetching todo items is unavailable or returns a 500 error
+  steps:
+  - Navigate to the todo list view
+  - Observe the UI state when the API call fails
+  expected_result: An appropriate error message or empty state is displayed; no broken
+    or partially rendered todo rows with malformed notes or badge elements appear
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC09
+  behavior_id: PR1-B006
+  priority: P1
+  title: Priority badge changes dynamically and notes clamping remains consistent
+  test_type: happy_path
+  preconditions:
+  - User is authenticated and has access to the todo list
+  - A todo item exists with a long notes text
+  - The todo item currently has no priority badge
+  steps:
+  - Navigate to the todo list view
+  - Observe the todo row notes text without a priority badge
+  - Assign a priority badge to the todo item
+  - Observe the todo row notes text after the priority badge is added
+  expected_result: After the priority badge is assigned, the notes text remains clamped
+    to a single line alongside the badge without layout shift or overflow
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+- id: PR1-B006-TC10
+  behavior_id: PR1-B006
+  priority: P3
+  title: Notes text with special characters and unicode is clamped correctly alongside
+    priority badge
+  test_type: negative
+  preconditions:
+  - User is authenticated and has access to the todo list
+  - A todo item exists with a priority badge assigned
+  - The todo item notes field contains special characters, emoji, or unicode text
+    of sufficient length to exceed a single line
+  steps:
+  - Navigate to the todo list view
+  - Locate the todo row containing special characters or unicode in notes alongside
+    a priority badge
+  - Observe the rendering of the notes text
+  expected_result: The notes text containing special characters or unicode is correctly
+    clamped to a single line with truncation, without rendering errors or layout breakage
+  automation_status: manual
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
