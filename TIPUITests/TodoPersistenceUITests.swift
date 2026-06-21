@@ -51,8 +51,8 @@ final class TodoPersistenceUITests: TIPUITestCase {
         addTodo(title: "Edit Then Restart", priority: "Low")
 
         // Edit: change priority from Low → High
-        let pencil = app.buttons.matching(NSPredicate(format: "label == 'Edit'")).firstMatch
-        XCTAssertTrue(pencil.waitForExistence(timeout: 3))
+        let pencil = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'edit-'")).firstMatch
+        XCTAssertTrue(pencil.waitForExistence(timeout: 3), "Edit button not found in row")
         pencil.tap()
         addEditScreen.selectPriority("High").save()
 

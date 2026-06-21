@@ -22,22 +22,30 @@ final class TodoAddEditUITests: TIPUITestCase {
                        "Medium should be the default selection")
     }
 
-    // PR1-B001-TC02 — User can select Low priority
+    // PR1-B001-TC02 — User can select Low priority and the saved todo shows a Low badge
+    // Note: checking isSelected on SwiftUI segmented buttons is unreliable (accessibility
+    // state may lag). Verify via the visible outcome (badge in list) instead.
     func testSelectLowPriorityInAddForm__PR1_B001_TC02() {
-        let form = todoListScreen.tapAdd()
-        form.selectPriority("Low")
+        todoListScreen
+            .tapAdd()
+            .enterTitle("Low Priority Task")
+            .selectPriority("Low")
+            .save()
 
-        XCTAssertEqual(form.selectedPriority(), "Low",
-                       "Low segment should be selected after tapping it")
+        XCTAssertTrue(todoListScreen.hasBadge(priority: "low"),
+                      "Low segment should be selected — saved todo must show a Low badge")
     }
 
-    // PR1-B001-TC03 — User can select High priority
+    // PR1-B001-TC03 — User can select High priority and the saved todo shows a High badge
     func testSelectHighPriorityInAddForm__PR1_B001_TC03() {
-        let form = todoListScreen.tapAdd()
-        form.selectPriority("High")
+        todoListScreen
+            .tapAdd()
+            .enterTitle("High Priority Task")
+            .selectPriority("High")
+            .save()
 
-        XCTAssertEqual(form.selectedPriority(), "High",
-                       "High segment should be selected after tapping it")
+        XCTAssertTrue(todoListScreen.hasBadge(priority: "high"),
+                      "High segment should be selected — saved todo must show a High badge")
     }
 
     // PR1-B001-TC04 — Selected priority is persisted when form is saved
@@ -52,9 +60,9 @@ final class TodoAddEditUITests: TIPUITestCase {
     func testEditFormPreSelectsCurrentPriority__PR1_B002_TC01() {
         addTodo(title: "Low Task", priority: "Low")
 
-        // Open edit by tapping the pencil button on the row
-        let pencilButton = app.buttons.matching(NSPredicate(format: "label == 'Edit'")).firstMatch
-        XCTAssertTrue(pencilButton.waitForExistence(timeout: 3))
+        // Pencil buttons are identified as "edit-<uuid>" — grab the first one
+        let pencilButton = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'edit-'")).firstMatch
+        XCTAssertTrue(pencilButton.waitForExistence(timeout: 3), "Edit button not found in row")
         pencilButton.tap()
 
         let form = addEditScreen
@@ -67,8 +75,8 @@ final class TodoAddEditUITests: TIPUITestCase {
     func testChangePriorityInEditFormPersists__PR1_B002_TC02() {
         addTodo(title: "Medium Task", priority: "Medium")
 
-        let pencilButton = app.buttons.matching(NSPredicate(format: "label == 'Edit'")).firstMatch
-        XCTAssertTrue(pencilButton.waitForExistence(timeout: 3))
+        let pencilButton = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'edit-'")).firstMatch
+        XCTAssertTrue(pencilButton.waitForExistence(timeout: 3), "Edit button not found in row")
         pencilButton.tap()
 
         addEditScreen

@@ -34,11 +34,11 @@ final class DashboardUITests: TIPUITestCase {
         XCTAssertEqual(dash.highPriorityCount(), 1,
                        "Count should be 1 before completing the todo")
 
-        // Complete the todo by tapping its circle button
+        // Complete the todo by tapping its toggle button (identifier: "toggle-<uuid>")
         todoListScreen.navigate()
-        let circleButton = app.buttons.matching(NSPredicate(format: "label == 'circle'")).firstMatch
-        XCTAssertTrue(circleButton.waitForExistence(timeout: 3))
-        circleButton.tap()
+        let toggleButton = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'toggle-'")).firstMatch
+        XCTAssertTrue(toggleButton.waitForExistence(timeout: 3), "Toggle button not found in row")
+        toggleButton.tap()
 
         dash.navigate()
         XCTAssertEqual(dash.highPriorityCount(), 0,

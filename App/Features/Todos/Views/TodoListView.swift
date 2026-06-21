@@ -81,6 +81,7 @@ private struct TodoRowView: View {
                     .foregroundStyle(todo.isCompleted ? .green : .secondary)
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("toggle-\(todo.id)")
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(todo.title)
@@ -103,6 +104,8 @@ private struct TodoRowView: View {
                     .foregroundStyle(.secondary)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Edit")
+            .accessibilityIdentifier("edit-\(todo.id)")
         }
         .padding(.vertical, 4)
     }

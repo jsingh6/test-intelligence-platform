@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "98290788-DEBC-424F-8025-7802A1A1F923",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:TIP.xcodeproj",
+        "identifier" : "3899DD9E3FFB40EB9ACE73CF",
+        "name" : "TIPUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
