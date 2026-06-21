@@ -1,0 +1,31 @@
+# Secrets
+.env
+
+# Xcode
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+build/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# VS Code extension
+vscode-extension/out/
+vscode-extension/node_modules/
+vscode-extension/*.vsix
+
+# macOS
+.DS_Store
+
+# project generator (internal tooling)
+gen_xcodeproj.py
