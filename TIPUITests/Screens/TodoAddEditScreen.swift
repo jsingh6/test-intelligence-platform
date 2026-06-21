@@ -19,6 +19,12 @@ struct TodoAddEditScreen {
     func enterTitle(_ title: String) -> Self {
         waitForAppearance()
         titleField.tap()
+        // Sheet animation may still be running after the field exists — wait for
+        // the keyboard before typing, otherwise typeText throws a focus error.
+        if !app.keyboards.firstMatch.waitForExistence(timeout: 3) {
+            titleField.tap()  // retry tap if keyboard didn't appear
+            _ = app.keyboards.firstMatch.waitForExistence(timeout: 2)
+        }
         titleField.typeText(title)
         return self
     }
