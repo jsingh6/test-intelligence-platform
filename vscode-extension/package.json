@@ -1,0 +1,33 @@
+{
+  "name": "test-intelligence-platform",
+  "displayName": "Test Intelligence Platform",
+  "description": "CodeLens overlay showing test case pass/fail status next to @test-ids annotations",
+  "version": "0.1.0",
+  "engines": { "vscode": "^1.90.0" },
+  "categories": ["Testing"],
+  "activationEvents": ["onLanguage:swift"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "tip.openTestCase",
+        "title": "Open Test Case"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.4.0",
+    "@vscode/vsce": "^2.26.0"
+  }
+}
