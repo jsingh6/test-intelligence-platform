@@ -1,0 +1,46 @@
+name: Release Readiness Report
+
+on:
+  push:
+    branches:
+      - "release/**"
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate release report
+        env:
+          RELEASE_BRANCH: ${{ github.ref_name }}
+        run: |
+          python -c "
+          from pathlib import Path
+          from agent.release_reporter import generate, to_markdown
+          import os
+
+          report = generate(Path('harness'), os.environ['RELEASE_BRANCH'])
+          md = to_markdown(report)
+          Path('harness/reports').mkdir(exist_ok=True)
+          Path(f'harness/reports/{os.environ[\"RELEASE_BRANCH\"].replace(\"/\", \"_\")}.md').write_text(md)
+          print(md)
+          "
+
+      - name: Commit report
+        run: |
+          git config user.name "tip-bot"
+          git config user.email "tip-bot@users.noreply.github.com"
+          git add harness/reports/
+          git diff --cached --quiet || git commit -m "harness: release report for ${{ github.ref_name }}"
+          git push

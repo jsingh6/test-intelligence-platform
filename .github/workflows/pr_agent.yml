@@ -1,0 +1,77 @@
+name: PR Behavior Agent
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  issue_comment:
+    types: [created]
+
+jobs:
+  behavior-summary:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Gather context and post behavior summary
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          python -c "
+          from pathlib import Path
+          from agent.context_gather import gather
+          from agent.behavior_summary import generate
+          from agent.pr_comment import post_summary
+          import os
+
+          ctx = gather(int(os.environ['PR_NUMBER']), os.environ['REPO'], Path('harness'))
+          summary = generate(ctx)
+          post_summary(int(os.environ['PR_NUMBER']), os.environ['REPO'], summary)
+          "
+
+  handle-approval:
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request != null
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Handle approval comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          python -c "
+          from agent.pr_comment import handle_approval
+          import os
+          handle_approval(int(os.environ['PR_NUMBER']), os.environ['REPO'], os.environ['COMMENT_BODY'])
+          "

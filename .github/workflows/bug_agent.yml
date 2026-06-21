@@ -1,0 +1,48 @@
+name: Bug Regression Agent
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  regression:
+    if: github.event.label.name == 'bug'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_PAT }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run bug regression pipeline
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          REPO: ${{ github.repository }}
+        run: |
+          python -c "
+          import json, os
+          from pathlib import Path
+          from agent.bug_webhook import handle_bug_labeled
+
+          payload = json.loads('''${{ toJson(github.event) }}''')
+          handle_bug_labeled(payload, Path('harness'), os.environ['REPO'])
+          "
+
+      - name: Commit regression test case
+        run: |
+          git config user.name "tip-bot"
+          git config user.email "tip-bot@users.noreply.github.com"
+          git add harness/
+          git diff --cached --quiet || git commit -m "harness: regression TC for issue #${{ github.event.issue.number }}"
+          git push
