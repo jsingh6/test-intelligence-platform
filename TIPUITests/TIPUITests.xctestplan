@@ -13,7 +13,7 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:TIP.xcodeproj",
         "identifier" : "3899DD9E3FFB40EB9ACE73CF",
