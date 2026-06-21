@@ -69,6 +69,10 @@ Return a JSON object with keys:
         messages=[{"role": "user", "content": user_message}],
     )
 
-    import json
-    data = json.loads(response.content[0].text)
+    import json, re
+    raw = response.content[0].text
+    # Strip markdown code fences if Claude wrapped the JSON
+    match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw, re.DOTALL)
+    text = match.group(1) if match else raw.strip()
+    data = json.loads(text)
     return BehaviorSummary(**data)

@@ -27,19 +27,43 @@ struct TodoListView: View {
                 }
             }
             .sheet(isPresented: $viewModel.isShowingAddSheet) {
-                TodoAddEditView(mode: .add) { title, notes in
-                    viewModel.add(title: title, notes: notes)
+                TodoAddEditView(mode: .add) { title, notes, priority in
+                    viewModel.add(title: title, notes: notes, priority: priority)
                 }
             }
             .sheet(item: $viewModel.editingTodo) { todo in
-                TodoAddEditView(mode: .edit(todo)) { title, notes in
+                TodoAddEditView(mode: .edit(todo)) { title, notes, priority in
                     var updated = todo
                     updated.title = title
                     updated.notes = notes
+                    updated.priority = priority
                     viewModel.update(updated)
                 }
             }
         }
+    }
+}
+
+private struct PriorityBadge: View {
+    let priority: Todo.Priority
+
+    var color: Color {
+        switch priority {
+        case .low:    return .gray
+        case .medium: return .orange
+        case .high:   return .red
+        }
+    }
+
+    var body: some View {
+        Text(priority.label)
+            .font(.caption2)
+            .fontWeight(.medium)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(color.opacity(0.15))
+            .foregroundStyle(color)
+            .clipShape(Capsule())
     }
 }
 
@@ -59,10 +83,14 @@ private struct TodoRowView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(todo.title)
                     .strikethrough(todo.isCompleted)
-                if !todo.notes.isEmpty {
-                    Text(todo.notes)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                HStack(spacing: 6) {
+                    PriorityBadge(priority: todo.priority)
+                    if !todo.notes.isEmpty {
+                        Text(todo.notes)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(1)
+                    }
                 }
             }
 

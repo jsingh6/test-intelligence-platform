@@ -22,6 +22,7 @@ struct DashboardView: View {
                 Section("Stats") {
                     StatRow(label: "Total Todos", value: "\(todoViewModel.todos.count)")
                     StatRow(label: "Completed", value: "\(todoViewModel.todos.filter(\.isCompleted).count)")
+                    StatRow(label: "High Priority", value: "\(todoViewModel.todos.filter { $0.priority == .high && !$0.isCompleted }.count)")
                 }
             }
             .navigationTitle("Dashboard")

@@ -11,9 +11,9 @@ final class TodoViewModel: ObservableObject {
 
     init() { load() }
 
-    func add(title: String, notes: String) {
+    func add(title: String, notes: String, priority: Todo.Priority = .medium) {
         guard !title.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-        todos.append(Todo(title: title, notes: notes))
+        todos.append(Todo(title: title, notes: notes, priority: priority))
         save()
     }
 

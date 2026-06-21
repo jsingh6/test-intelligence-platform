@@ -8,21 +8,24 @@ struct TodoAddEditView: View {
     }
 
     let mode: Mode
-    let onSave: (String, String) -> Void
+    let onSave: (String, String, Todo.Priority) -> Void
 
     @Environment(\.dismiss) private var dismiss
     @State private var title: String
     @State private var notes: String
+    @State private var priority: Todo.Priority
 
-    init(mode: Mode, onSave: @escaping (String, String) -> Void) {
+    init(mode: Mode, onSave: @escaping (String, String, Todo.Priority) -> Void) {
         self.mode = mode
         self.onSave = onSave
         if case .edit(let todo) = mode {
-            _title = State(initialValue: todo.title)
-            _notes = State(initialValue: todo.notes)
+            _title    = State(initialValue: todo.title)
+            _notes    = State(initialValue: todo.notes)
+            _priority = State(initialValue: todo.priority)
         } else {
-            _title = State(initialValue: "")
-            _notes = State(initialValue: "")
+            _title    = State(initialValue: "")
+            _notes    = State(initialValue: "")
+            _priority = State(initialValue: .medium)
         }
     }
 
@@ -41,6 +44,14 @@ struct TodoAddEditView: View {
                     TextField("Additional details...", text: $notes, axis: .vertical)
                         .lineLimit(3...6)
                 }
+                Section("Priority") {
+                    Picker("Priority", selection: $priority) {
+                        ForEach(Todo.Priority.allCases, id: \.self) { p in
+                            Text(p.label).tag(p)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
             }
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
@@ -50,7 +61,7 @@ struct TodoAddEditView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        onSave(title, notes)
+                        onSave(title, notes, priority)
                         dismiss()
                     }
                     .disabled(title.trimmingCharacters(in: .whitespaces).isEmpty)
