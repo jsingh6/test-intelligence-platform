@@ -35,12 +35,19 @@ def ingest_manual(tc_id: str, passed: bool, harness_root: Path) -> TestResult:
 
 
 def _parse_junit(xml_path: Path) -> list[TestResult]:
+    """Parse JUnit XML produced by xcodebuild -resultBundlePath.
+
+    Test functions must follow the naming convention:
+        test<Description>__<TC_ID_with_underscores>
+    e.g. testLoginSuccess__AUTH_TC001  →  AUTH-TC001
+         testAddFormPicker__PR1_B001_TC01  →  PR1-B001-TC01
+    """
     tree = ET.parse(xml_path)
     results = []
     for testcase in tree.iter("testcase"):
-        tc_id = testcase.get("name", "")
-        if not tc_id.startswith(("TC", "P0", "P1", "AUTH", "TODO", "DASH", "REG")):
-            # Only map if the name looks like a known TC ID
+        name = testcase.get("name", "")
+        tc_id = _extract_tc_id(name)
+        if not tc_id:
             continue
         passed = testcase.find("failure") is None and testcase.find("error") is None
         results.append(TestResult(
@@ -50,6 +57,18 @@ def _parse_junit(xml_path: Path) -> list[TestResult]:
             duration_seconds=float(testcase.get("time", 0)),
         ))
     return results
+
+
+def _extract_tc_id(func_name: str) -> str | None:
+    """Extract TC ID from a test function name using the __ separator convention."""
+    if "__" not in func_name:
+        return None
+    suffix = func_name.rsplit("__", 1)[1]   # e.g. "PR1_B001_TC01"
+    tc_id = suffix.replace("_", "-")         # e.g. "PR1-B001-TC01"
+    # Sanity check — must look like a known ID pattern
+    if not any(tc_id.startswith(p) for p in ("AUTH-", "PR", "REG-")):
+        return None
+    return tc_id
 
 
 def _update_pool(results: list[TestResult], harness_root: Path) -> None:

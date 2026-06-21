@@ -20,9 +20,15 @@ struct DashboardView: View {
                 }
 
                 Section("Stats") {
-                    StatRow(label: "Total Todos", value: "\(todoViewModel.todos.count)")
-                    StatRow(label: "Completed", value: "\(todoViewModel.todos.filter(\.isCompleted).count)")
-                    StatRow(label: "High Priority", value: "\(todoViewModel.todos.filter { $0.priority == .high && !$0.isCompleted }.count)")
+                    StatRow(label: "Total Todos",
+                            value: "\(todoViewModel.todos.count)",
+                            valueID: "stat-total")
+                    StatRow(label: "Completed",
+                            value: "\(todoViewModel.todos.filter(\.isCompleted).count)",
+                            valueID: "stat-completed")
+                    StatRow(label: "High Priority",
+                            value: "\(todoViewModel.todos.filter { $0.priority == .high && !$0.isCompleted }.count)",
+                            valueID: "stat-high-priority")
                 }
             }
             .navigationTitle("Dashboard")
@@ -33,6 +39,7 @@ struct DashboardView: View {
 private struct StatRow: View {
     let label: String
     let value: String
+    var valueID: String = ""
 
     var body: some View {
         HStack {
@@ -40,6 +47,7 @@ private struct StatRow: View {
             Spacer()
             Text(value)
                 .foregroundStyle(.secondary)
+                .accessibilityIdentifier(valueID)
         }
     }
 }

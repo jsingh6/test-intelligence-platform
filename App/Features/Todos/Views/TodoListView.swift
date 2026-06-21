@@ -24,6 +24,7 @@ struct TodoListView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
+                    .accessibilityIdentifier("add-todo-button")
                 }
             }
             .sheet(isPresented: $viewModel.isShowingAddSheet) {
@@ -64,6 +65,7 @@ private struct PriorityBadge: View {
             .background(color.opacity(0.15))
             .foregroundStyle(color)
             .clipShape(Capsule())
+            .accessibilityIdentifier("badge-\(priority.rawValue)")
     }
 }
 

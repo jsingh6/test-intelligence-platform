@@ -19,9 +19,11 @@ struct LoginView: View {
                         .textInputAutocapitalization(.never)
                         .keyboardType(.emailAddress)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityIdentifier("email-field")
 
                     SecureField("Password", text: $viewModel.password)
                         .textFieldStyle(.roundedBorder)
+                        .accessibilityIdentifier("password-field")
                 }
 
                 if let error = viewModel.errorMessage {
@@ -43,6 +45,7 @@ struct LoginView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(viewModel.isLoading)
+                .accessibilityIdentifier("login-button")
 
                 Spacer()
             }

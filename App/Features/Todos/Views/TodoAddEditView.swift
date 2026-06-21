@@ -39,10 +39,12 @@ struct TodoAddEditView: View {
             Form {
                 Section("Title") {
                     TextField("What needs to be done?", text: $title)
+                        .accessibilityIdentifier("title-field")
                 }
                 Section("Notes") {
                     TextField("Additional details...", text: $notes, axis: .vertical)
                         .lineLimit(3...6)
+                        .accessibilityIdentifier("notes-field")
                 }
                 Section("Priority") {
                     Picker("Priority", selection: $priority) {
@@ -51,6 +53,7 @@ struct TodoAddEditView: View {
                         }
                     }
                     .pickerStyle(.segmented)
+                    .accessibilityIdentifier("priority-picker")
                 }
             }
             .navigationTitle(navigationTitle)
