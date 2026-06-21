@@ -47,14 +47,19 @@ jobs:
   handle-approval:
     if: >
       github.event_name == 'issue_comment' &&
-      github.event.issue.pull_request != null
+      github.event.issue.pull_request != null &&
+      contains(github.event.comment.body, '/approve-behaviors')
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
       issues: write
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.issue.pull_request.head.ref }}
 
       - uses: actions/setup-python@v5
         with:
@@ -63,7 +68,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Handle approval comment
+      - name: Swap behavior-review label to approved
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.issue.number }}
@@ -74,4 +79,20 @@ jobs:
           from agent.pr_comment import handle_approval
           import os
           handle_approval(int(os.environ['PR_NUMBER']), os.environ['REPO'], os.environ['COMMENT_BODY'])
+          "
+
+      - name: Generate test cases and commit to pool (M3)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          git config user.name "tip-bot"
+          git config user.email "tip-bot@users.noreply.github.com"
+          python -c "
+          from pathlib import Path
+          from agent.m3_pipeline import run
+          import os
+          run(int(os.environ['PR_NUMBER']), os.environ['REPO'], Path('harness'))
           "
