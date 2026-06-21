@@ -1,0 +1,302 @@
+# Test Intelligence Platform (TIP)
+
+> A repo-native test intelligence system that turns every pull request into a living behavior contract — automatically generating, managing, and validating test cases with zero external infrastructure.
+
+---
+
+## The Problem
+
+Most teams have a variation of the same broken loop:
+
+1. Developer ships a feature
+2. QE manually writes test cases from memory or a Confluence doc
+3. Regression suite grows stale — nobody updates it when behaviors change
+4. A bug ships that a test case *should* have caught — but didn't, because nobody wrote it
+
+TIP closes that loop at the source: the pull request.
+
+---
+
+## How It Works
+
+```
+Pull Request Opens
+       │
+       ▼
+ Context Gatherer ──── diff + PR description + existing behavior registry
+       │
+       ▼
+ Claude (behavior summary) ──── "Here's what changed in behavioral terms"
+       │
+       ▼
+ Developer Approves ──── /approve-behaviors
+       │
+       ▼
+ Test Case Generator ──── P0–P3 cases across 5 test patterns
+       │
+       ▼
+ Pool Commit ──── YAML committed to /harness/test-cases/ by bot
+       │
+       ▼
+ GitHub Issues ──── P0/P1 cases become automation candidates
+       │
+       ▼
+ Bug Filed? ──── Agent finds the gap, writes regression TC, logs it
+       │
+       ▼
+ Release Branch ──── Auto-generated report: coverage, gaps, deploy gate
+```
+
+The entire system lives in the repo. No external database. No additional infrastructure at M1. Drop in a GitHub Action and it works on any repo.
+
+---
+
+## Milestones
+
+| # | Name | Status |
+|---|------|--------|
+| M1 | Foundation — iOS Sample App + Behavior Registry | ✅ Complete |
+| M2 | PR Agent — Context Gathering + Behavior Summary | 🔧 Scaffolded |
+| M3 | Test Case Generation + Pool Management | 🔧 Scaffolded |
+| M4 | Bug Loop + Regression Intelligence | 🔧 Scaffolded |
+| M5 | Release Readiness Dashboard + Automation Mapping | 🔧 Scaffolded |
+
+---
+
+## M1: The Sample iOS App (TIPApp)
+
+The sample app is a real SwiftUI iOS application — not a toy. It has enough surface area to make the behavior registry and test case pool meaningful: authentication, stateful data, navigation, and CRUD flows. It is the subject that TIP is applied to.
+
+### Features
+
+**Authentication**
+- Login screen with email + password validation
+- Error state for empty fields
+- Session state managed via `AuthService` (`ObservableObject`)
+
+**Dashboard**
+- Post-auth greeting with user display name
+- Live stats: total todos and completion count
+- Updates in real time as todos change — no manual refresh
+
+**Todo List**
+- Add, edit, and delete todos via sheets
+- Per-item completion toggle with visual strikethrough
+- Persistent across sessions — stored in `UserDefaults`
+
+**Settings**
+- Displays current user's email and name
+- Logout clears session and returns to login
+
+**Navigation**
+- Tab bar: Dashboard / Todos / Settings
+- Sheet-based add and edit flows
+
+### Architecture
+
+```
+App/
+├── TIPApp.swift                    @main entry point
+├── Core/
+│   ├── Models/User.swift           User model (Codable)
+│   ├── Navigation/AppTabView.swift  Tab bar + shared TodoViewModel injection
+│   └── Services/AuthService.swift  Auth state (@EnvironmentObject)
+├── Features/
+│   ├── Auth/
+│   │   ├── Views/LoginView.swift
+│   │   └── ViewModels/LoginViewModel.swift
+│   ├── Dashboard/
+│   │   ├── Views/DashboardView.swift        Live stats via @EnvironmentObject
+│   │   └── ViewModels/DashboardViewModel.swift
+│   ├── Todos/
+│   │   ├── Models/Todo.swift                Codable, Identifiable
+│   │   ├── Views/TodoListView.swift
+│   │   ├── Views/TodoAddEditView.swift
+│   │   └── ViewModels/TodoViewModel.swift   UserDefaults persistence
+│   └── Settings/
+│       └── Views/SettingsView.swift
+└── Resources/
+    └── Assets.xcassets
+```
+
+**Patterns:**
+- MVVM throughout
+- `@EnvironmentObject` for cross-feature shared state (`AuthService`, `TodoViewModel`)
+- `@StateObject` only at the injection point (`AppTabView`)
+- `async/await` for auth operations
+
+### Running the App
+
+Requirements: Xcode 16+, iOS 17 simulator
+
+```bash
+open TIP.xcodeproj
+# Select any iOS 17+ simulator → Run
+```
+
+Login with any non-empty email and password — the sample app accepts all credentials.
+
+---
+
+## M1: Behavior Registry + Test Case Pool
+
+The harness lives in the repo alongside the code.
+
+```
+harness/
+├── behaviors/          One YAML per feature area
+│   ├── _schema.yaml    Schema reference
+│   └── auth.yaml       Auth behaviors (AUTH-B001, AUTH-B002, AUTH-B003)
+├── test-cases/         One YAML per feature area
+│   ├── _schema.yaml    Schema reference
+│   └── auth_tc.yaml    Auth test cases (AUTH-TC001 – AUTH-TC003)
+├── audit/              Gap audit log (written by M4 bug agent)
+└── reports/            Release readiness reports (generated by M5)
+```
+
+### Behavior Schema
+
+```yaml
+# harness/behaviors/auth.yaml
+behaviors:
+  - id: AUTH-B001
+    summary: User can log in with a valid email and password and is navigated to the dashboard.
+    pr_of_origin: "#1"
+    file_paths:
+      - App/Features/Auth/Views/LoginView.swift
+      - App/Core/Services/AuthService.swift
+    status: active          # active | deprecated | pending
+```
+
+### Test Case Schema
+
+```yaml
+# harness/test-cases/auth_tc.yaml
+test_cases:
+  - id: AUTH-TC001
+    behavior_id: AUTH-B001
+    priority: P0            # P0–P3
+    title: Successful login with valid credentials
+    steps:
+      - Enter a valid email address
+      - Enter the correct password
+      - Tap "Log In"
+    expected_result: User is navigated to the Dashboard tab.
+    automation_status: automation-candidate
+    last_result: null
+```
+
+### @test-ids Annotation Standard
+
+Every public Swift declaration that implements user-visible behavior carries an inline annotation:
+
+```swift
+// @test-ids: AUTH-TC001, AUTH-TC002
+final class AuthService: ObservableObject {
+```
+
+The linter enforces this on every PR:
+
+```bash
+./scripts/lint_test_ids.sh          # checks changed files against main
+```
+
+---
+
+## M2–M5: Agent Pipeline
+
+The agent pipeline is implemented in `agent/` (Python). Each module maps to one concern:
+
+| Module | Milestone | What it does |
+|--------|-----------|--------------|
+| `context_gather.py` | M2 | Collects diff, PR description, comments, existing behaviors |
+| `behavior_summary.py` | M2 | Claude API call → behavior delta or new summary |
+| `pr_comment.py` | M2 | Posts structured PR comment, manages soft-block label |
+| `test_generator.py` | M3 | Claude generates P0–P3 TCs across 5 test patterns |
+| `pool_manager.py` | M3 | Commits approved TCs to YAML pool |
+| `bug_webhook.py` | M4 | Parses bug label event, extracts impacted files from stack trace |
+| `gap_finder.py` | M4 | Cross-references behavior registry + pool to find coverage gaps |
+| `regression_generator.py` | M4 | Generates regression TC, appends to audit log |
+| `release_reporter.py` | M5 | Loads pool → Markdown release report with P0 deploy gate |
+| `result_ingestion.py` | M5 | Ingests JUnit XML or manual pass/fail → updates pool YAMLs |
+| `semantic_mapper.py` | M5 | Matches unannotated test functions to pool entries via Claude |
+
+### GitHub Actions
+
+Three workflows ship with the repo:
+
+```
+.github/workflows/
+├── pr_agent.yml        Triggers on PR open/push + issue_comment
+├── bug_agent.yml       Triggers when 'bug' label is applied to an issue
+└── release_report.yml  Triggers on push to release/** branches
+```
+
+### Secrets Required
+
+| Secret | Used by |
+|--------|---------|
+| `ANTHROPIC_API_KEY` | All Claude API calls |
+| `BOT_PAT` | `bug_agent.yml` (needs push access to commit regression TCs) |
+
+---
+
+## M5: VS Code Extension
+
+`vscode-extension/` ships a CodeLens provider that reads the test pool and overlays pass/fail status next to every `@test-ids` annotation:
+
+```swift
+// @test-ids: AUTH-TC001        ← ✅ AUTH-TC001: Successful login (2026-06-15)
+final class AuthService: ObservableObject {
+```
+
+Red for fail, green for pass, grey for not yet run. Click opens the test case detail.
+
+---
+
+## Adding TIP to Your Own Repo
+
+1. Copy `harness/` and `.github/workflows/` into your repo
+2. Add `ANTHROPIC_API_KEY` to repo secrets
+3. Open a PR — the agent takes it from there
+
+The behavior registry starts empty and fills itself as PRs land. No upfront migration needed.
+
+---
+
+## Local Agent Setup
+
+```bash
+cp .env.example .env      # add ANTHROPIC_API_KEY and GITHUB_TOKEN
+pip install -r requirements.txt
+
+# Run the agent locally against a PR
+python -c "
+from pathlib import Path
+from agent.context_gather import gather
+from agent.behavior_summary import generate
+
+ctx = gather(PR_NUMBER, 'owner/repo', Path('harness'))
+summary = generate(ctx)
+print(summary.raw_summary)
+"
+
+# Submit a manual test result
+./scripts/submit_result.sh AUTH-TC001 pass
+```
+
+---
+
+## Design Decisions
+
+**Why YAML in the repo?**
+The registry versions with the code. It appears in PRs as diffs. It works for any team with zero infrastructure setup.
+
+**Why a soft block and not a hard CI gate?**
+Social friction is faster to adopt than hard gates. The `needs-behavior-review` label is visible to reviewers without blocking CI for teams that haven't fully committed yet.
+
+**Why Claude for behavior summarization and not a rules engine?**
+Behaviors are expressed in natural language — "user can log in" — not in code terms. LLMs are the right tool for translating code diffs into behavioral semantics.
+
+**Why no "approve all" button in M3?**
+Anti-rubber-stamp design. Each test case is a 10-second decision. The value of the review is in that decision, not the approval.
