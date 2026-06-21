@@ -9,7 +9,8 @@ struct TodoListScreen {
     @discardableResult
     func navigate() -> Self {
         app.tabBars.buttons["Todos"].tap()
-        _ = addButton.waitForExistence(timeout: 3)
+        XCTAssertTrue(addButton.waitForExistence(timeout: 5),
+                      "Todos tab did not load — add button not found")
         return self
     }
 

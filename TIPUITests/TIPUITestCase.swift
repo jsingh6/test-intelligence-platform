@@ -9,9 +9,16 @@ class TIPUITestCase: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+        // Terminate any lingering session from a previous test before launching fresh.
         app = XCUIApplication()
+        app.terminate()
         app.launchArguments = ["--uitesting"]
         app.launch()
+        // Wait for the app to reach an interactive state before any test logic runs.
+        XCTAssertTrue(
+            app.textFields["email-field"].waitForExistence(timeout: 10),
+            "App did not reach the login screen within 10s"
+        )
     }
 
     override func tearDownWithError() throws {

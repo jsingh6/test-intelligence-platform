@@ -14,12 +14,15 @@ struct LoginScreen {
 
     @discardableResult
     func login(email: String = "user@example.com", password: String = "password") -> DashboardScreen {
-        XCTAssertTrue(emailField.waitForExistence(timeout: 3), "Login screen did not appear")
+        XCTAssertTrue(emailField.waitForExistence(timeout: 5), "Login screen did not appear")
         emailField.tap()
         emailField.typeText(email)
         passwordField.tap()
         passwordField.typeText(password)
         loginButton.tap()
+        // Wait for the login transition to complete before callers try to interact with tabs.
+        XCTAssertTrue(app.tabBars.firstMatch.waitForExistence(timeout: 5),
+                      "Tab bar did not appear after login")
         return DashboardScreen(app: app)
     }
 
