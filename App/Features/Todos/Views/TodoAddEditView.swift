@@ -1,6 +1,6 @@
 import SwiftUI
 
-// @test-ids: TODO-002, TODO-004
+// @test-ids: PR1-B001-TC01, PR1-B001-TC02, PR1-B001-TC03, PR1-B002-TC01, PR1-B002-TC02
 struct TodoAddEditView: View {
     enum Mode {
         case add

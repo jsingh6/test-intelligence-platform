@@ -1,55 +1,58 @@
-schema_version: "1.0"
-
+schema_version: '1.0'
 test_cases:
-  - id: AUTH-TC001
-    behavior_id: AUTH-B001
-    priority: P0
-    title: Successful login with valid credentials
-    preconditions:
-      - App is launched and login screen is visible
-      - Valid credentials are available
-    steps:
-      - Enter a valid email address in the Email field
-      - Enter the correct password in the Password field
-      - Tap "Log In"
-    expected_result: User is navigated to the Dashboard tab. Greeting with user name is visible.
-    automation_status: automation-candidate
-    automation_tc_id: null
-    last_result: null
-    last_run_date: null
-    pr_of_origin: "#1"
-    regression_for_bug: null
-
-  - id: AUTH-TC002
-    behavior_id: AUTH-B002
-    priority: P1
-    title: Login with empty fields shows validation error
-    preconditions:
-      - App is launched and login screen is visible
-    steps:
-      - Leave Email and Password fields empty
-      - Tap "Log In"
-    expected_result: Inline error "Email and password are required." appears. User remains on login screen.
-    automation_status: automation-candidate
-    automation_tc_id: null
-    last_result: null
-    last_run_date: null
-    pr_of_origin: "#1"
-    regression_for_bug: null
-
-  - id: AUTH-TC003
-    behavior_id: AUTH-B003
-    priority: P1
-    title: Logout from Settings returns to login screen
-    preconditions:
-      - User is authenticated and on any tab
-    steps:
-      - Navigate to Settings tab
-      - Tap "Log Out"
-    expected_result: Session is cleared. Login screen is shown. Dashboard and Todos tabs are no longer accessible.
-    automation_status: automation-candidate
-    automation_tc_id: null
-    last_result: null
-    last_run_date: null
-    pr_of_origin: "#1"
-    regression_for_bug: null
+- id: AUTH-TC001
+  behavior_id: AUTH-B001
+  priority: P0
+  title: Successful login with valid credentials
+  preconditions:
+  - App is launched and login screen is visible
+  - Valid credentials are available
+  steps:
+  - Enter a valid email address in the Email field
+  - Enter the correct password in the Password field
+  - Tap "Log In"
+  expected_result: User is navigated to the Dashboard tab. Greeting with user name
+    is visible.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/2
+- id: AUTH-TC002
+  behavior_id: AUTH-B002
+  priority: P1
+  title: Login with empty fields shows validation error
+  preconditions:
+  - App is launched and login screen is visible
+  steps:
+  - Leave Email and Password fields empty
+  - Tap "Log In"
+  expected_result: Inline error "Email and password are required." appears. User remains
+    on login screen.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/3
+- id: AUTH-TC003
+  behavior_id: AUTH-B003
+  priority: P1
+  title: Logout from Settings returns to login screen
+  preconditions:
+  - User is authenticated and on any tab
+  steps:
+  - Navigate to Settings tab
+  - Tap "Log Out"
+  expected_result: Session is cleared. Login screen is shown. Dashboard and Todos
+    tabs are no longer accessible.
+  automation_status: automation-candidate
+  automation_tc_id: null
+  last_result: null
+  last_run_date: null
+  pr_of_origin: '#1'
+  regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/4

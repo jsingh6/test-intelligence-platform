@@ -21,6 +21,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/5
 - id: PR1-B001-TC02
   behavior_id: PR1-B001
   priority: P0
@@ -40,6 +41,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/6
 - id: PR1-B001-TC03
   behavior_id: PR1-B001
   priority: P0
@@ -59,6 +61,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/7
 - id: PR1-B001-TC04
   behavior_id: PR1-B001
   priority: P0
@@ -80,6 +83,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/8
 - id: PR1-B001-TC05
   behavior_id: PR1-B001
   priority: P1
@@ -102,6 +106,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/9
 - id: PR1-B001-TC06
   behavior_id: PR1-B001
   priority: P1
@@ -122,6 +127,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/10
 - id: PR1-B001-TC07
   behavior_id: PR1-B001
   priority: P1
@@ -144,6 +150,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/11
 - id: PR1-B001-TC08
   behavior_id: PR1-B001
   priority: P1
@@ -166,6 +173,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/12
 - id: PR1-B001-TC09
   behavior_id: PR1-B001
   priority: P2
@@ -230,6 +238,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/13
 - id: PR1-B002-TC02
   behavior_id: PR1-B002
   priority: P0
@@ -253,6 +262,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/14
 - id: PR1-B002-TC03
   behavior_id: PR1-B002
   priority: P1
@@ -280,6 +290,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/15
 - id: PR1-B002-TC04
   behavior_id: PR1-B002
   priority: P1
@@ -301,6 +312,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/16
 - id: PR1-B002-TC05
   behavior_id: PR1-B002
   priority: P1
@@ -321,6 +333,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/17
 - id: PR1-B002-TC06
   behavior_id: PR1-B002
   priority: P2
@@ -411,6 +424,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/18
 - id: PR1-B002-TC10
   behavior_id: PR1-B002
   priority: P2
@@ -478,6 +492,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/19
 - id: PR1-B003-TC02
   behavior_id: PR1-B003
   priority: P0
@@ -498,6 +513,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/20
 - id: PR1-B003-TC03
   behavior_id: PR1-B003
   priority: P0
@@ -518,6 +534,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/21
 - id: PR1-B003-TC04
   behavior_id: PR1-B003
   priority: P1
@@ -538,6 +555,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/22
 - id: PR1-B003-TC05
   behavior_id: PR1-B003
   priority: P1
@@ -561,6 +579,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/23
 - id: PR1-B003-TC06
   behavior_id: PR1-B003
   priority: P2
@@ -606,6 +625,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/24
 - id: PR1-B003-TC08
   behavior_id: PR1-B003
   priority: P2
@@ -716,6 +736,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/25
 - id: PR1-B004-TC02
   behavior_id: PR1-B004
   priority: P0
@@ -739,6 +760,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/26
 - id: PR1-B004-TC03
   behavior_id: PR1-B004
   priority: P1
@@ -760,6 +782,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/27
 - id: PR1-B004-TC04
   behavior_id: PR1-B004
   priority: P1
@@ -780,6 +803,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/28
 - id: PR1-B004-TC05
   behavior_id: PR1-B004
   priority: P2
@@ -823,6 +847,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/29
 - id: PR1-B004-TC07
   behavior_id: PR1-B004
   priority: P1
@@ -845,6 +870,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/30
 - id: PR1-B004-TC08
   behavior_id: PR1-B004
   priority: P1
@@ -868,6 +894,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/31
 - id: PR1-B004-TC09
   behavior_id: PR1-B004
   priority: P1
@@ -890,6 +917,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/32
 - id: PR1-B004-TC10
   behavior_id: PR1-B004
   priority: P2
@@ -933,6 +961,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/33
 - id: PR1-B004-TC12
   behavior_id: PR1-B004
   priority: P1
@@ -955,6 +984,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/34
 - id: PR1-B005-TC01
   behavior_id: PR1-B005
   priority: P0
@@ -979,6 +1009,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/35
 - id: PR1-B005-TC02
   behavior_id: PR1-B005
   priority: P0
@@ -1003,6 +1034,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/36
 - id: PR1-B005-TC03
   behavior_id: PR1-B005
   priority: P0
@@ -1027,6 +1059,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/37
 - id: PR1-B005-TC04
   behavior_id: PR1-B005
   priority: P0
@@ -1051,6 +1084,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/38
 - id: PR1-B005-TC05
   behavior_id: PR1-B005
   priority: P1
@@ -1075,6 +1109,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/39
 - id: PR1-B005-TC06
   behavior_id: PR1-B005
   priority: P1
@@ -1101,6 +1136,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/40
 - id: PR1-B005-TC07
   behavior_id: PR1-B005
   priority: P2
@@ -1150,6 +1186,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/41
 - id: PR1-B005-TC09
   behavior_id: PR1-B005
   priority: P1
@@ -1173,6 +1210,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/42
 - id: PR1-B005-TC10
   behavior_id: PR1-B005
   priority: P1
@@ -1194,6 +1232,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/43
 - id: PR1-B005-TC11
   behavior_id: PR1-B005
   priority: P2
@@ -1267,6 +1306,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/44
 - id: PR1-B006-TC02
   behavior_id: PR1-B006
   priority: P1
@@ -1289,6 +1329,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/45
 - id: PR1-B006-TC03
   behavior_id: PR1-B006
   priority: P1
@@ -1312,6 +1353,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/46
 - id: PR1-B006-TC04
   behavior_id: PR1-B006
   priority: P1
@@ -1333,6 +1375,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/47
 - id: PR1-B006-TC05
   behavior_id: PR1-B006
   priority: P2
@@ -1442,6 +1485,7 @@ test_cases:
   last_run_date: null
   pr_of_origin: '#1'
   regression_for_bug: null
+  issue_url: https://github.com/jsingh6/test-intelligence-platform/issues/48
 - id: PR1-B006-TC10
   behavior_id: PR1-B006
   priority: P3

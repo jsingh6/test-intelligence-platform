@@ -1,6 +1,6 @@
 import SwiftUI
 
-// @test-ids: AUTH-003
+// @test-ids: AUTH-TC003
 struct SettingsView: View {
     @EnvironmentObject var authService: AuthService
 

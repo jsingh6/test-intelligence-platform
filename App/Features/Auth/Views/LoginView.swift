@@ -1,6 +1,6 @@
 import SwiftUI
 
-// @test-ids: AUTH-001, AUTH-002, AUTH-003
+// @test-ids: AUTH-TC001, AUTH-TC002
 struct LoginView: View {
     @EnvironmentObject var authService: AuthService
     @StateObject private var viewModel = LoginViewModel()

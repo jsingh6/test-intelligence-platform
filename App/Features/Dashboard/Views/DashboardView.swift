@@ -1,6 +1,6 @@
 import SwiftUI
 
-// @test-ids: DASH-001
+// @test-ids: PR1-B004-TC01, PR1-B004-TC02
 struct DashboardView: View {
     @EnvironmentObject var authService: AuthService
     @EnvironmentObject var todoViewModel: TodoViewModel

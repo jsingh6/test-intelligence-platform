@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-// @test-ids: AUTH-001, AUTH-002, AUTH-003
+// @test-ids: AUTH-TC001, AUTH-TC002, AUTH-TC003
 final class AuthService: ObservableObject {
     @Published var isAuthenticated = false
     @Published var currentUser: User?

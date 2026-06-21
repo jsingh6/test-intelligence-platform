@@ -1,6 +1,6 @@
 import Foundation
 
-// @test-ids: AUTH-001, AUTH-002
+// @test-ids: AUTH-TC001, AUTH-TC002
 @MainActor
 final class LoginViewModel: ObservableObject {
     @Published var email = ""

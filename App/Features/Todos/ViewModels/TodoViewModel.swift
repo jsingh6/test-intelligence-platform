@@ -1,6 +1,6 @@
 import Foundation
 
-// @test-ids: TODO-001, TODO-002, TODO-003, TODO-004
+// @test-ids: PR1-B001-TC04, PR1-B002-TC02, PR1-B005-TC01, PR1-B005-TC04
 @MainActor
 final class TodoViewModel: ObservableObject {
     @Published var todos: [Todo] = []
