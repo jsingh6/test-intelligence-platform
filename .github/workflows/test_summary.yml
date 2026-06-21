@@ -1,0 +1,27 @@
+name: Test Coverage Summary
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "harness/test-cases/**"
+  workflow_dispatch:
+
+jobs:
+  summary:
+    name: Generate coverage summary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Write summary
+        run: python agent/generate_summary.py >> $GITHUB_STEP_SUMMARY
+        env:
+          HARNESS_ROOT: harness
