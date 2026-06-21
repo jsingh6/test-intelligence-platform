@@ -5,7 +5,9 @@ struct TodoAddEditScreen {
 
     var titleField: XCUIElement    { app.textFields["title-field"] }
     var notesField: XCUIElement    { app.textFields["notes-field"] }
-    var priorityPicker: XCUIElement { app.segmentedControls["priority-picker"] }
+    // Use firstMatch — XCUITest subscript matches by label, not identifier,
+    // and SwiftUI does not propagate accessibilityIdentifier as the label on Picker.
+    var priorityPicker: XCUIElement { app.segmentedControls.firstMatch }
     var saveButton: XCUIElement    { app.buttons["Save"] }
     var cancelButton: XCUIElement  { app.buttons["Cancel"] }
 

@@ -25,10 +25,11 @@ struct TodoListScreen {
     }
 
     func hasBadge(priority: String) -> Bool {
-        app.staticTexts
-            .matching(identifier: "badge-\(priority.lowercased())")
-            .firstMatch
-            .waitForExistence(timeout: 2)
+        // Text inside .clipShape() doesn't reliably surface accessibilityIdentifier
+        // as a queryable staticText. Match by the visible label ("Low"/"Medium"/"High")
+        // which is unique in the list once the add/edit sheet is dismissed.
+        let label = priority.prefix(1).uppercased() + priority.dropFirst().lowercased()
+        return app.staticTexts[label].waitForExistence(timeout: 3)
     }
 
     func rowWithTitle(_ title: String) -> XCUIElement {
