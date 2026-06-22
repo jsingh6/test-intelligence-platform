@@ -7,29 +7,29 @@ struct TodoListScreen {
 
     @discardableResult
     func navigate() -> Self {
-        // Use index-based tab selection (position 1 = Todos) rather than label
-        // matching, which can be brittle across iOS versions and locales.
-        let todosTab = app.tabBars.firstMatch.buttons.element(boundBy: 1)
-        XCTAssertTrue(todosTab.waitForExistence(timeout: 5), "Todos tab button not found")
-        todosTab.tap()
+        let tabBar = app.tabBars.firstMatch
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 10), "Tab bar not found")
 
-        // Verify navigation completed — retry once if the tap didn't register
-        // (can happen if the previous tab's transition was still in flight)
-        if !app.navigationBars["Todos"].waitForExistence(timeout: 5) {
-            todosTab.tap()
-            XCTAssertTrue(
-                app.navigationBars["Todos"].waitForExistence(timeout: 8),
-                "Todos navigation bar did not appear after two tap attempts"
-            )
-        }
+        // iOS 17+ VoiceOver labels tab buttons as "Todos, tab 2 of 3" not just "Todos",
+        // so exact-match subscript and boundBy-index are both unreliable.
+        // CONTAINS predicate handles both short and long label forms.
+        let todosBtn = tabBar.buttons.matching(
+            NSPredicate(format: "label CONTAINS 'Todos'")
+        ).firstMatch
+        XCTAssertTrue(todosBtn.waitForExistence(timeout: 10), "Todos tab button not found")
+        todosBtn.tap()
+
+        XCTAssertTrue(
+            app.navigationBars["Todos"].waitForExistence(timeout: 10),
+            "Todos navigation bar did not appear after tapping Todos tab"
+        )
         return self
     }
 
     @discardableResult
     func tapAdd() -> TodoAddEditScreen {
-        // The "+" button is the only button in the Todos nav bar
         let addBtn = app.navigationBars["Todos"].buttons.firstMatch
-        XCTAssertTrue(addBtn.waitForExistence(timeout: 5), "Add (+) button not found in nav bar")
+        XCTAssertTrue(addBtn.waitForExistence(timeout: 5), "Add (+) button not found in Todos nav bar")
         addBtn.tap()
         return TodoAddEditScreen(app: app)
     }
@@ -39,10 +39,15 @@ struct TodoListScreen {
     }
 
     func hasBadge(priority: String) -> Bool {
-        // Match by visible label text — more reliable than accessibilityIdentifier
-        // on a Text view inside .clipShape() which may not surface to the a11y tree.
+        // Match by the badge's visible text — Text inside .clipShape() does not
+        // reliably surface accessibilityIdentifier as a queryable staticText node.
         let label = priority.prefix(1).uppercased() + priority.dropFirst().lowercased()
         return app.staticTexts[label].waitForExistence(timeout: 5)
+    }
+
+    func hasBadgeIn(_ otherApp: XCUIApplication, priority: String) -> Bool {
+        let label = priority.prefix(1).uppercased() + priority.dropFirst().lowercased()
+        return otherApp.staticTexts[label].waitForExistence(timeout: 5)
     }
 
     func rowWithTitle(_ title: String) -> XCUIElement {
