@@ -40,6 +40,7 @@ struct TodoAddEditView: View {
                 Section("Title") {
                     TextField("What needs to be done?", text: $title)
                         .accessibilityIdentifier("title-field")
+                        .onSubmit { }  // allows Return key to dismiss keyboard
                 }
                 Section("Notes") {
                     TextField("Additional details...", text: $notes, axis: .vertical)

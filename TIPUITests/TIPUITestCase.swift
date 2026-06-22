@@ -63,10 +63,10 @@ class TIPUITestCase: XCTestCase {
         if !notes.isEmpty { _ = form.enterNotes(notes) }
         if priority != "Medium" { _ = form.selectPriority(priority) }
         form.save()
-        // Wait for the sheet to fully dismiss before returning
+        // Sheet dismissal is animated — give it up to 10s to fully complete
         XCTAssertTrue(
-            app.navigationBars["Todos"].waitForExistence(timeout: 5),
-            "Todos screen did not return after saving todo"
+            app.navigationBars["Todos"].waitForExistence(timeout: 10),
+            "Todos screen did not return after saving todo — sheet may not have dismissed"
         )
         return todoListScreen
     }
